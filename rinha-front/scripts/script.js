@@ -48,8 +48,19 @@ $(document).ready(function() {
                 button = $(e.target)
                 let rinhaid = button[0].attributes[1].nodeValue
                 let teamvoted = button[0].attributes[2].nodeValue
-                vote = JSON.stringify({rinhaid , teamvoted})
+                vote = JSON.stringify({'userid': 2, rinhaid , teamvoted})
                 console.log(vote)
+                
+                $.ajax({
+                    url: 'http://127.0.0.1/Vote/addData',
+                    type: 'POST',
+                    data: vote,
+                    dataType: 'json',
+                    success: function (data) {
+                        if (data.message == "Can't create data") alert('Já votou!')
+                            
+                    }
+                });
             })
         });
     }

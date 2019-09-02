@@ -57,12 +57,12 @@ h1 {
 #formuser, #formpass, #loginBtn {
     margin-bottom: 10px;
     border: solid white 1px;
-    color: white;
+    color: ba5959;
     padding: 5px;
 }
 
 #formuser::placeholder, #formpass::placeholder, #loginBtn::placeholder {
-    color: white;
+    color: ba5959;
     opacity: 0.5;
 }
 

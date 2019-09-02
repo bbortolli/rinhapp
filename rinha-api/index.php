@@ -3,9 +3,10 @@
 header("Access-Control-Allow-Origin: *");
 header('Content-Type: application/json; charset: utf-8');
 
-require 'config/Routes.php';
-require 'Models/User.php';
-require 'Models/Rinha.php';
+require_once 'config/Routes.php';
+require_once 'Models/User.php';
+require_once 'Models/Rinha.php';
+require_once 'Models/Vote.php';
 
 if (isset($_REQUEST)) {
 
