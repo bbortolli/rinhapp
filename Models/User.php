@@ -20,8 +20,7 @@ class User {
         $dbres = save('users', $data);
         http_response_code(200);
         $response = array(
-            'message' => $dbres
-        );
+            'message' => $dbres);
         return json_encode($response);
     }
 

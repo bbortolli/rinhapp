@@ -1,5 +1,6 @@
 <?php
 
+
 /** O nome do banco de dados*/
 define('DB_NAME', 'rinhapp');
 

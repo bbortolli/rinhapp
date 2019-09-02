@@ -45,8 +45,7 @@ class Vote {
         $dbres = save('votes', $data);
         http_response_code(200);
         $response = array(
-            'message' => $dbres
-        );
+            'message' => $dbres);
         return json_encode($response);
     }
 

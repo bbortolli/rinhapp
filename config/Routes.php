@@ -1,5 +1,4 @@
 <?php
-
 // Insert all routes here
 $myRoutes = [
     'User' => [

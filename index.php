@@ -25,7 +25,6 @@ if (isset($_REQUEST)) {
 
     // Verify param
     if(! filter_var($param, FILTER_VALIDATE_INT) ) {
-
         http_response_code(400);
 
         $response = array(
