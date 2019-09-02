@@ -13,6 +13,13 @@ class Rinha {
         return json_encode($data);
     }
 
+    public function getAll() {
+
+        $data = findAll('rinhas');
+        http_response_code(200);
+        return json_encode($data);
+    }
+
     public function addData($data) {
 
         $data = json_decode($data);
@@ -30,7 +37,8 @@ class Rinha {
         $dbres = update('rinhas', $data);
         http_response_code(200);
         $response = array(
-            'message' => $dbres);
+            'message' => $dbres
+        );
         return json_encode($response);
     }
 

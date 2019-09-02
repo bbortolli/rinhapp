@@ -1,0 +1,108 @@
+* {
+    box-sizing: border-box;
+    margin: 0;
+    font-family: 'Roboto', sans-serif;
+}
+
+html {
+    background-color: 	#ba5959;
+}
+
+.top {
+    grid-area: top;
+    padding: 20px 0;
+    
+}
+
+.main {
+    grid-area: main;
+    padding: 10px 0;
+    justify-items: center;
+    align-content: center;
+    align-self: center;
+}
+
+footer {
+    grid-area: footer;
+    text-align: right;
+    padding: 10px;
+}
+
+body {
+    display: grid;
+    grid-template-rows: 10vh 85vh 5vh;
+    grid-template-areas: 
+    "top"
+    "main"
+    "footer"
+}
+
+h1 {
+    text-align: center;
+}
+
+.formlogin {
+    display: flex;
+    flex-direction: column;
+}
+
+.forminputs {
+    display: flex;
+    flex-direction: column;
+    padding: 12px;
+    width: 15%;
+    align-self: center;
+}
+
+#formuser, #formpass, #loginBtn {
+    margin-bottom: 10px;
+    border: solid white 1px;
+    color: white;
+    padding: 5px;
+}
+
+#formuser::placeholder, #formpass::placeholder, #loginBtn::placeholder {
+    color: white;
+    opacity: 0.5;
+}
+
+.games {
+    display: flex;
+    flex-direction: row;
+    flex-wrap: wrap;
+}
+
+.game {
+    display: flex;
+    flex-direction: column;
+    background: lemonchiffon;
+    margin: 10px;
+    align-items: center;
+    justify-items: center;
+}
+
+p {
+    text-align: center;
+}
+
+.t1dat, .t2dat {
+    display: flex;
+    flex-direction: column;
+    width: 150px;
+}
+
+.t1dat {
+    margin-right: 10px;
+}
+
+.res {
+    padding: 10px;
+    display: flex;
+    flex-direction: row;
+}
+
+.inf {
+    width: 100%;
+    border-top: solid red 1px;
+    padding: 10px;
+}

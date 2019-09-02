@@ -25,14 +25,16 @@ if (isset($_REQUEST)) {
     $param = $route[0];
 
     // Verify param
-    if(! filter_var($param, FILTER_VALIDATE_INT) ) {
-        http_response_code(400);
-
-        $response = array(
-            'statusMessage' => "Wrong params");
-        echo json_encode($response);
-        return;
-    }
+    /*if($method != 'POST' || $method != 'PUT') {
+        if(! filter_var($param, FILTER_VALIDATE_INT) ) {
+            http_response_code(400);
+    
+            $response = array(
+                'statusMessage' => "xxxWrong params");
+            echo json_encode($response);
+            return;
+        }
+    }*/
 
     // Verify if control NO exist
     if(!class_exists($class)) {

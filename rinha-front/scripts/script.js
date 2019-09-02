@@ -1,10 +1,58 @@
 $(document).ready(function() {
 
-    alert('Deu')
+    $('#loginBtn').on('click', function(e) {
+        e.preventDefault()
+        let user = $('#formUser').val()
+        let pass = $('#formPass').val()
+        let data = JSON.stringify({nickname: user, password: pass})
 
-    $.getJSON('http://127.0.0.1/User/getData/2', function(data, status) {
-        console.log('dados: ', data)
-    })
+        $.ajax({
+            url: 'http://127.0.0.1/User/login',
+            type: 'POST',
+            data,
+            dataType: 'json',
+            success: function (data) {
+                console.info(data);
+                if (data.token) {
+                    console.log("go to user page")
+                }
+                else {
+                    console.log("invalid")
+                }
+            }
+        });
+    });
+
+    let token = 1;
+    if(token) {
+        $.get('http://127.0.0.1/Rinha/getAll', function(data, status) {
+            $.each(data, function(index, value) {
+                var id = $('<p></p>').text(value._id)
+                var team1 = $('<p></p>').text(value.team1.toUpperCase())
+                var team2 = $('<p></p>').text(value.team2.toUpperCase())
+                var endtime = $('<p></p>').text('Ends: '+ value.endtime)
+                var totalteam1 = $('<p></p>').text(value.totalteam1)
+                var totalteam2 = $('<p></p>').text(value.totalteam2)
+                $('.games').append('<div class="game index-'+index+'">')
+                $('.game.index-'+index).append('<div class="res results-'+index+'">')
+                $('.game.index-'+index).append('<div class="inf infos-'+index+'">')
+                $('.results-'+index).append('<div class="t1dat t1c-'+index+'">')
+                $('.results-'+index).append('<div class="t2dat t2c-'+index+'">')
+                $('.infos-'+index).append(id, endtime)
+                var btnVote = $('<button class="voteBtn" [gameid]='+value._id+' [tid]="first"></button>').text('Vote!')
+                $('.t1c-'+index).append(team1, totalteam1, btnVote)
+                var btnVote = $('<button class="voteBtn" [gameid]='+value._id+' [tid]="secnd"></button>').text('Vote!')
+                $('.t2c-'+index).append(team2, totalteam2, btnVote)
+            })
+            $('.voteBtn').on('click', function(e) {
+                button = $(e.target)
+                let rinhaid = button[0].attributes[1].nodeValue
+                let teamvoted = button[0].attributes[2].nodeValue
+                vote = JSON.stringify({rinhaid , teamvoted})
+                console.log(vote)
+            })
+        });
+    }
 
 
 });

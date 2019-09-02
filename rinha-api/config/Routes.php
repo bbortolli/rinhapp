@@ -3,12 +3,14 @@
 $myRoutes = [
     'User' => [
         'getData' => 'GET',
+        'login' => 'POST',
         'addData' => 'POST',
         'updateData' => 'PUT',
         'removeData' => 'DELETE'
     ],
     'Rinha' => [
         'getData' => 'GET',
+        'getAll' => 'GET',
         'addData' => 'POST',
         'updateData' => 'PUT',
         'removeData' => 'DELETE'
