@@ -12,14 +12,26 @@ class User {
         $data = json_decode($data);
         $database = open_database();
         $found = null;
+        
+        $notallowed = array("'", "=", '"', "*");
+
+        $data->nickname = trim($data->nickname);
+        $data->nickname = str_replace($notallowed, "", $data->nickname);
+
+        $data->password = trim($data->password);
+        $data->password = str_replace($notallowed, "", $data->password);
+
+        var_dump($data->nickname);
+        var_dump($data->password);
 
         try {
             if ($data->nickname && $data->password) {
                 $sql = "SELECT * FROM users WHERE nickname = " . "'" .$data->nickname . "'";
+                var_dump($sql);
                 $result = $database->query($sql);
                 if ($result->num_rows > 0) {
                     $found = $result->fetch_assoc();
-                    if ($data->password === $found['password']) {
+                    if (hash('sha256', $data->password) === $found['password']) {
                         close_database($database);
                         http_response_code(200);
                         $response = array(

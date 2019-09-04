@@ -22,6 +22,10 @@ html {
     align-self: center;
 }
 
+.sidemenu {
+    grid-area: side
+}
+
 footer {
     grid-area: footer;
     text-align: right;
@@ -30,10 +34,10 @@ footer {
 
 body {
     display: grid;
-    grid-template-rows: 10vh 85vh 5vh;
+    grid-template-rows: 10vh 10vh 75vh 5vh;
     grid-template-areas: 
     "top"
-    "main"
+    "side main"
     "footer"
 }
 

@@ -12,9 +12,10 @@ $(document).ready(function() {
             data,
             dataType: 'json',
             success: function (data) {
-                console.info(data);
                 if (data.token) {
-                    console.log("go to user page")
+                    localStorage.setItem('usertoken', 'token')
+                    window.location.replace('./user.html')
+                    console.clear();   
                 }
                 else {
                     console.log("invalid")
@@ -49,7 +50,6 @@ $(document).ready(function() {
                 let rinhaid = button[0].attributes[1].nodeValue
                 let teamvoted = button[0].attributes[2].nodeValue
                 vote = JSON.stringify({'userid': 2, rinhaid , teamvoted})
-                console.log(vote)
                 
                 $.ajax({
                     url: 'http://127.0.0.1/Vote/addData',
@@ -57,13 +57,23 @@ $(document).ready(function() {
                     data: vote,
                     dataType: 'json',
                     success: function (data) {
-                        if (data.message == "Can't create data") alert('Já votou!')
-                            
+                        if (data.message == "Can't create data") {
+                            alert('Já votou!')
+                            console.clear();   
+                        }
+                        else {
+                            let previous = button.prev()
+                            previous.text( parseInt(previous.text())+1 )
+                            console.clear();   
+                        }    
                     }
                 });
             })
         });
     }
 
-
+    $('#logoutbtn').on('click', function() {
+        localStorage.removeItem('usertoken')
+        window.location.replace('./index.html')
+    })
 });

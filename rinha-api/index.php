@@ -7,6 +7,7 @@ require_once 'config/Routes.php';
 require_once 'Models/User.php';
 require_once 'Models/Rinha.php';
 require_once 'Models/Vote.php';
+require_once 'Models/Token.php';
 
 if (isset($_REQUEST)) {
 

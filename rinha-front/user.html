@@ -1,4 +1,9 @@
 <html lang="en">
+<script>
+        if(localStorage.usertoken === null) {
+            window.location.replace('./index.html')
+        }
+</script>
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
@@ -8,13 +13,12 @@
     <title>RinhAPP !</title>
 </head>
 <body>
-
     <div class="top">
             <h1> Usuario </h1>
+            <button id="logoutbtn">Logout!</button>
     </div>
     <div class="main">
         <div class="games">
-
         </div>
     </div>
     <footer>

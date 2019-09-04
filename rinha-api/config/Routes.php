@@ -11,6 +11,7 @@ $myRoutes = [
     'Rinha' => [
         'getData' => 'GET',
         'getAll' => 'GET',
+        'getByUser' => 'GET',
         'addData' => 'POST',
         'updateData' => 'PUT',
         'removeData' => 'DELETE'
@@ -21,6 +22,9 @@ $myRoutes = [
         'updateAccount' => 'PUT',
         'removeAccount' => 'DELETE'
     ],
+    'Token' => [
+        'generateToken' => 'GET'
+    ]
 ];
 
 ?>
