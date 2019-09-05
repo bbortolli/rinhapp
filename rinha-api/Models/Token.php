@@ -2,29 +2,29 @@
 
 header('Content-Type: application/json; charset: utf-8');
 
-include_once( $_SERVER['DOCUMENT_ROOT'] . '/config/cfg.php');
-include_once( $_SERVER['DOCUMENT_ROOT'] . '/config/database.php');
+include_once( $_SERVER['DOCUMENT_ROOT'] . '/rinha-api/config/cfg.php');
+include_once( $_SERVER['DOCUMENT_ROOT'] . '/rinha-api/config/database.php');
 
 class Token {
 
-    private $id;
-    private $token;
+    protected $id;
+    protected $token;
 
-    function __construct($id) {
-        $this->$id = $id;
+    public function __construct($id) {
+        $this->id = $id;
     }
 
     public function getId() {
-        return $this->$id;
+        return $this->id;
     }
 
     public function getToken() {
-        return $this->$token;
+        return $this->token;
     }
 
     public function generateToken() {
 
-        if (!$this->$id) {
+        if (!$this->id) {
             http_response_code(401);
             $response = array(
                 'message' => 'ID needed!'
@@ -38,7 +38,7 @@ class Token {
         $string = $id . $time;
 
         $token = hash('sha256', $string);
-        $this->$token = $token;
+        $this->token = $token;
 
     }
 
@@ -46,10 +46,7 @@ class Token {
 
         $myId = $this->getId();
         $myToken = $this->getToken();
-
-        update('users', $myId, array('token' => $myToken));
-
-
+        $dbres = update('users', $myId, array('token' => $myToken));
     }
 
 }

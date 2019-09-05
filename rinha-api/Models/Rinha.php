@@ -1,8 +1,8 @@
 <?php
 
 header('Content-Type: application/json; charset: utf-8');
-include_once( $_SERVER['DOCUMENT_ROOT'] . '/config/cfg.php');
-include_once( $_SERVER['DOCUMENT_ROOT'] . '/config/database.php');
+include_once( $_SERVER['DOCUMENT_ROOT'] . '/rinha-api/config/cfg.php');
+include_once( $_SERVER['DOCUMENT_ROOT'] . '/rinha-api/config/database.php');
 
 class Rinha {
 

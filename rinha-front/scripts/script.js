@@ -7,7 +7,7 @@ $(document).ready(function() {
         let data = JSON.stringify({nickname: user, password: pass})
 
         $.ajax({
-            url: 'http://127.0.0.1/User/login',
+            url: 'http://127.0.0.1/rinha-api/User/login',
             type: 'POST',
             data,
             dataType: 'json',
@@ -26,7 +26,7 @@ $(document).ready(function() {
 
     let token = 1;
     if(token) {
-        $.get('http://127.0.0.1/Rinha/getAll', function(data, status) {
+        $.get('http://127.0.0.1/rinha-api/Rinha/getAll', function(data, status) {
             $.each(data, function(index, value) {
                 var id = $('<p></p>').text(value._id)
                 var team1 = $('<p></p>').text(value.team1.toUpperCase())
@@ -52,7 +52,7 @@ $(document).ready(function() {
                 vote = JSON.stringify({'userid': 2, rinhaid , teamvoted})
                 
                 $.ajax({
-                    url: 'http://127.0.0.1/Vote/addData',
+                    url: 'http://127.0.0.1/rinha-api/Vote/addData',
                     type: 'POST',
                     data: vote,
                     dataType: 'json',

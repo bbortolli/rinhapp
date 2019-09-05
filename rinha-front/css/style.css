@@ -23,7 +23,7 @@ html {
 }
 
 .sidemenu {
-    grid-area: side
+    grid-area: side;
 }
 
 footer {
@@ -32,13 +32,13 @@ footer {
     padding: 10px;
 }
 
-body {
+.grid-container {
     display: grid;
-    grid-template-rows: 10vh 10vh 75vh 5vh;
+    grid-template-rows: 10vh 80vh 10vh;
     grid-template-areas: 
-    "top"
-    "side main"
-    "footer"
+    "top top top top top"
+    "side main main main main"
+    "footer footer footer footer footer";
 }
 
 h1 {

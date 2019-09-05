@@ -102,11 +102,12 @@ function save($table = null, $data = null) {
   
 	// remove a ultima virgula
 	$items = rtrim($items, ',');
-  
+
+	
 	$sql  = "UPDATE " . $table;
 	$sql .= " SET $items";
-	$sql .= " WHERE id=" . $id . ";";
-  
+	$sql .= " WHERE _id=" . $id . ";";
+
 	try {
 	  $dbresponse = $database->query($sql);
 	  if ($dbresponse) {

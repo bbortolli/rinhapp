@@ -70,6 +70,8 @@ if (isset($_REQUEST)) {
         return;
     }
 
+    
+
     // GET and DELETE calls a function sending the param received from the URL
     if ($method === 'GET' || $method === 'DELETE') {
         $response = call_user_func_array( array(new $class, $classMethod), array($param) );

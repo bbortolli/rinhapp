@@ -2,8 +2,9 @@
 
 header('Content-Type: application/json; charset: utf-8');
 
-include_once( $_SERVER['DOCUMENT_ROOT'] . '/config/cfg.php');
-include_once( $_SERVER['DOCUMENT_ROOT'] . '/config/database.php');
+include_once( $_SERVER['DOCUMENT_ROOT'] . '/rinha-api/config/cfg.php');
+include_once( $_SERVER['DOCUMENT_ROOT'] . '/rinha-api/config/database.php');
+require_once 'Token.php';
 
 class User {
 
@@ -21,21 +22,20 @@ class User {
         $data->password = trim($data->password);
         $data->password = str_replace($notallowed, "", $data->password);
 
-        var_dump($data->nickname);
-        var_dump($data->password);
-
         try {
             if ($data->nickname && $data->password) {
                 $sql = "SELECT * FROM users WHERE nickname = " . "'" .$data->nickname . "'";
-                var_dump($sql);
                 $result = $database->query($sql);
                 if ($result->num_rows > 0) {
                     $found = $result->fetch_assoc();
                     if (hash('sha256', $data->password) === $found['password']) {
                         close_database($database);
+                        $token = new Token($found['_id']);
+                        $token->generateToken();
+                        $token->saveToken();
                         http_response_code(200);
                         $response = array(
-                            'token' => 'token gerado'
+                            'token' => $token->getToken()
                         );
                         return json_encode($response);
   
@@ -74,9 +74,12 @@ class User {
 
     public function addData($data) {
 
+        
         $data = json_decode($data);
+        $data->password = hash('sha256', $data->password);
         $dbres = save('users', $data);
         http_response_code(200);
+        var_dump($data);
         $response = array(
             'message' => $dbres
         );

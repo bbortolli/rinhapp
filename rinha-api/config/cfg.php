@@ -19,7 +19,7 @@ if ( !defined('ABSPATH') )
 		
 /** caminho do arquivo de banco de dados **/
 if ( !defined('DBAPI') )
-	define('DBAPI', ABSPATH . 'config/database.php');
+	define('DBAPI', ABSPATH . '/rinha-api/config/database.php');
 
 ?>
 
