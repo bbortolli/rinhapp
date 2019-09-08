@@ -1,7 +1,5 @@
 <?php
 
-header('Content-Type: application/json; charset: utf-8');
-
 include_once( $_SERVER['DOCUMENT_ROOT'] . '/rinha-api/config/cfg.php');
 include_once( $_SERVER['DOCUMENT_ROOT'] . '/rinha-api/config/database.php');
 
@@ -10,7 +8,7 @@ class Token {
     protected $id;
     protected $token;
 
-    public function __construct($id) {
+    public function __construct($id = null) {
         $this->id = $id;
     }
 
@@ -25,11 +23,7 @@ class Token {
     public function generateToken() {
 
         if (!$this->id) {
-            http_response_code(401);
-            $response = array(
-                'message' => 'ID needed!'
-            );
-            return json_encode($response);
+            return false;
         }
 
         $date = date_create();
@@ -47,6 +41,30 @@ class Token {
         $myId = $this->getId();
         $myToken = $this->getToken();
         $dbres = update('users', $myId, array('token' => $myToken));
+    }
+
+    public function verifyToken($token) {
+
+        if(! $token) {
+            return false;
+        }
+
+        $database = open_database();
+        $found = null;
+
+        try {
+            $sql = "SELECT _id, token FROM users WHERE token = " . "'" . $token . "'";
+            $result = $database->query($sql);
+            if ($result->num_rows > 0) {
+                $found = $result->fetch_assoc();
+            }
+        }
+        catch (Exception $e) {
+            return $e->GetMessage();
+        }
+
+        close_database($database);
+        return $found;
     }
 
 }

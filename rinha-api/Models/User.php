@@ -65,16 +65,21 @@ class User {
         
     }
 
-    public function getData($_id) {
+    public function getData($_id, $token) {
 
-        $data = find('users', $_id);
-        http_response_code(200);
-        return json_encode($data);
+        $helper = new Token();
+        $res = $helper->verifyToken($token);
+
+        if($res) {
+            $data = find('users', $_id);
+            unset($data['password']);
+            http_response_code(200);
+            return json_encode($data);
+        }
     }
 
     public function addData($data) {
 
-        
         $data = json_decode($data);
         $data->password = hash('sha256', $data->password);
         $dbres = save('users', $data);
@@ -86,7 +91,18 @@ class User {
         return json_encode($response);
     }
 
-    public function updateData($data) {
+    public function updateData($data, $token) {
+
+        $helper = new Token();
+        $res = $helper->verifyToken($token);
+
+        if(! $res || $res['_id'] !== $data['_id']) {
+            http_response_code(401);
+            $response = array(
+                'message' => "You can't do this"
+            );
+            return json_encode($response);
+        }
 
         $data = json_decode($data);
         $dbres = update('users', $data);
@@ -97,7 +113,18 @@ class User {
         return json_encode($response);
     }
 
-    public function removeData($id) {
+    public function removeData($id, $token) {
+
+        $helper = new Token();
+        $res = $helper->verifyToken($token);
+
+        if(! $res || $res['_id'] !== $data['_id']) {
+            http_response_code(401);
+            $response = array(
+                'message' => "You can't do this"
+            );
+            return json_encode($response);
+        }
 
         $data = json_decode($data);
         $dbres = remove('users', $id);

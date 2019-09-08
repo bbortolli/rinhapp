@@ -26,6 +26,15 @@ if (isset($_REQUEST)) {
     //$param = array();
     $param = $route[0];
 
+    // Get auth token
+    $headers = apache_request_headers();
+    if (! isset($headers['Authorization'])) {
+        $token = null;
+    }
+    else {
+        $token = $headers['Authorization'];
+    }
+
     // Verify param
     /*if($method != 'POST' || $method != 'PUT') {
         if(! filter_var($param, FILTER_VALIDATE_INT) ) {
@@ -74,14 +83,14 @@ if (isset($_REQUEST)) {
 
     // GET and DELETE calls a function sending the param received from the URL
     if ($method === 'GET' || $method === 'DELETE') {
-        $response = call_user_func_array( array(new $class, $classMethod), array($param) );
+        $response = call_user_func_array( array(new $class, $classMethod), array($param, $token) );
         echo $response;
         return;
     }
     // POST and PUT receive params from php input and calls a function sending those params
     else if ($method === 'POST' || $method === 'PUT') {
         $body = file_get_contents('php://input');
-        $response = call_user_func_array( array(new $class, $classMethod), array($body));
+        $response = call_user_func_array( array(new $class, $classMethod), array($body, $token));
         echo $response;
         return;
     }
