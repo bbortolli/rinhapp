@@ -27,13 +27,13 @@ if (isset($_REQUEST)) {
     $param = $route[0];
 
     // Get auth token
-    $headers = apache_request_headers();
-    if (! isset($headers['Authorization'])) {
-        $token = null;
-    }
-    else {
-        $token = $headers['Authorization'];
-    }
+    // $headers = apache_request_headers();
+    // if (! isset($headers['Authorization'])) {
+    //     $token = null;
+    // }
+    // else {
+    //     $token = $headers['Authorization'];
+    // }
 
     // Verify param
     /*if($method != 'POST' || $method != 'PUT') {

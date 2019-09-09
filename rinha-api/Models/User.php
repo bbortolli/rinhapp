@@ -1,6 +1,7 @@
 <?php
 
 header('Content-Type: application/json; charset: utf-8');
+header("Access-Control-Allow-Origin: *");
 
 include_once( $_SERVER['DOCUMENT_ROOT'] . '/rinha-api/config/cfg.php');
 include_once( $_SERVER['DOCUMENT_ROOT'] . '/rinha-api/config/database.php');

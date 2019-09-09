@@ -34,7 +34,7 @@ footer {
 
 .grid-container {
     display: grid;
-    grid-template-rows: 10vh 80vh 10vh;
+    grid-template-rows: 10vh 85vh 5vh;
     grid-template-areas: 
     "top top top top top"
     "side main main main main"
@@ -109,4 +109,32 @@ p {
     width: 100%;
     border-top: solid red 1px;
     padding: 10px;
+}
+
+.sidenav {
+    padding-top: 30px;
+}
+
+.navlist {
+    list-style: none;
+    padding: 0;
+}
+
+.navbtn {
+    margin-bottom: 2px;
+    width: 200px;
+}
+
+.navbtn a {
+    display: block;
+    text-decoration: none;
+    color: #ba5959;
+    background-color: white;
+    font-size: 1.25em;
+    padding: 5px 8px;
+    text-align: center;
+}
+
+.navbtn a:hover {
+    background-color: #e3e3e3;
 }
