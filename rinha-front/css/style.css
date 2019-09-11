@@ -58,14 +58,15 @@ h1 {
     align-self: center;
 }
 
-#formuser, #formpass, #loginBtn {
+#formUser, #formPass, #formEmail, #formReEmail, #formRePass, #loginBtn {
     margin-bottom: 10px;
     border: solid white 1px;
     color: ba5959;
     padding: 5px;
 }
 
-#formuser::placeholder, #formpass::placeholder, #loginBtn::placeholder {
+#formUser::placeholder, #formPass::placeholder, #loginBtn::placeholder, #formEmail::placeholder,
+#formReEmail::placeholder, #formRePass::placeholder {
     color: ba5959;
     opacity: 0.5;
 }
@@ -103,6 +104,17 @@ p {
     padding: 10px;
     display: flex;
     flex-direction: row;
+}
+
+.reg {
+    text-decoration: none;
+    color: white;
+    font-size: 0.8em;
+    text-align: center;
+}
+
+.reg:hover {
+    text-decoration: underline;
 }
 
 .inf {

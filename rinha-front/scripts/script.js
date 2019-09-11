@@ -14,8 +14,7 @@ $(document).ready(function() {
             success: function (data) {
                 if (data.token) {
                     localStorage.setItem('usertoken', 'token')
-                    window.location.replace('./user.html')
-                    console.clear();   
+                    window.location.replace('./index.html')
                 }
                 else {
                     console.log("invalid")
@@ -59,12 +58,10 @@ $(document).ready(function() {
                     success: function (data) {
                         if (data.message == "Can't create data") {
                             alert('Já votou!')
-                            console.clear();   
                         }
                         else {
                             let previous = button.prev()
                             previous.text( parseInt(previous.text())+1 )
-                            console.clear();   
                         }    
                     }
                 });
@@ -72,8 +69,66 @@ $(document).ready(function() {
         });
     }
 
-    $('#logoutbtn').on('click', function() {
+    $('#logoutBtn').on('click', function() {
         localStorage.removeItem('usertoken')
-        window.location.replace('./index.html')
+        window.location.replace('./login.html')
     })
+
+    $('#registerBtn').on('click', function() {
+        localStorage.removeItem('usertoken')
+        window.location.replace('./register.html')
+    })
+
+    $('#registerBtn').on('click', function(e) {
+        e.preventDefault()
+        let nickname = $('#formUser').val()
+        let password = $('#formPass').val()
+        let repass = $('#formRePass').val()
+        let email = $('#formEmail').val()
+        let remail = $('#formReEmail').val()
+        let data = JSON.stringify({nickname, password, email})
+
+        if(password !== '' && password === repass && email !== '' && email === remail) {
+            $.ajax({
+                url: 'http://127.0.0.1/rinha-api/User/addData',
+                type: 'POST',
+                data,
+                dataType: 'json',
+                success: function (data, status, req) {
+                    console.log("click")
+                    console.log(data, status, req)
+                },
+                error: function(req, status, err) {
+                    console.log("click")
+                    console('Status: ', status, 'Erro: ', err)
+                }
+            });
+        }
+        else {
+            console.log('aqui')
+        }
+    });
+
+    $('#formRePass').keyup(function () {
+        let pass = $('#formPass').val()
+        let repass = $(this).val()
+        if (pass !== repass) {
+            $('#pass-warn').text('Password dont match')
+        }
+        else {
+            $('#pass-warn').text('')
+        }
+      });
+
+      $('#formReEmail').keyup(function () {
+        let email = $('#formEmail').val()
+        let reemail = $(this).val()
+        if (email !== reemail) {
+            $('#email-warn').text('Email dont match')
+        }
+        else {
+            $('#email-warn').text('')
+        }
+      });
+
 });

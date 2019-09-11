@@ -1,8 +1,8 @@
 <html lang="en">
 <script>
-    if(localStorage.usertoken) {
-        window.location.replace('./user.html')
-    }
+        if(localStorage.usertoken === null) {
+            window.location.replace('./login.html')
+        }
 </script>
 <head>
     <meta charset="UTF-8">
@@ -15,24 +15,28 @@
 <body>
     <div class="grid-container">
         <div class="top">
-            <h1> Bem vindo ao RINHAPP !</h1>
+                <h1> RinhAPP ! </h1>
         </div>
         <div class="sidemenu">
-            
+            <nav class="sidenav">
+                <ul class="navlist">
+                    <li class="navbtn"><a href="#">Início</a></li>
+                    <li class="navbtn"><a href="votes.html">Meus votos</a></li>
+                    <li class="navbtn"><a href="rinhas.html">Minhas rinhas</a></li>
+                    <li class="navbtn"><a href="">Meu perfil</a></li>
+                    <li class="navbtn"><a id="logoutBtn" href="#">Logout</a></li>
+                </ul>
+            </nav>
         </div>
         <div class="main">
-            <div class="formlogin">
-                <form action="" class="forminputs">
-                    <input type="text" id="formUser" placeholder="nickname">
-                    <input type="password" id="formPass" placeholder="password">
-                    <input type="button" id="loginBtn" value="Login">
-                </form>
+            <div class="games">
             </div>
         </div>
         <footer>
             <span>dev by bruninbrz</span>
         </footer>
     </div>
+    
     <script src="https://code.jquery.com/jquery-3.4.1.min.js" integrity="sha256-CSXorXvZcTkaix6Yvo6HppcZGetbYMGWSFlBw8HfCJo=" crossorigin="anonymous"></script>
     <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.14.7/umd/popper.min.js" integrity="sha384-UO2eT0CpHqdSJQ6hJty5KVphtPhzWj9WO1clHTMGa3JDZwrnQq4sF86dIHNDz0W1" crossorigin="anonymous"></script>
     <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/js/bootstrap.min.js" integrity="sha384-JjSmVgyd0p3pXB1rRibZUAYoIIy6OrQ6VrjIEaFf/nJGzIxFDsf4x0xIM+B07jRM" crossorigin="anonymous"></script>

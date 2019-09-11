@@ -82,10 +82,17 @@ class User {
     public function addData($data) {
 
         $data = json_decode($data);
+        if($data->nickname === '' || $data->nickname === null || $data->password === '' || $data->password === null || $data->email === '' || $data->email === null) {
+            http_response_code(400);
+            $response = array(
+                'message' => 'Bad inputs'
+            );
+            return json_encode($response);
+        }
+
         $data->password = hash('sha256', $data->password);
         $dbres = save('users', $data);
         http_response_code(200);
-        var_dump($data);
         $response = array(
             'message' => $dbres
         );
