@@ -24,12 +24,12 @@ class Vote {
         $found = null;
 
         try {
-            if ($userid) {
-                $sql = "SELECT * FROM VOTES WHERE userid = " . $helper['_id'];
+            if ($helper['_id']) {
+                $sql = "SELECT * FROM votes WHERE userid = " . $helper['_id'];
                 $result = $database->query($sql);
                 
                 if ($result->num_rows > 0) {
-                $found = $result->fetch_assoc();
+                    $found = $result->fetch_all(MYSQLI_ASSOC);
                 }
             }
         }
@@ -45,6 +45,17 @@ class Vote {
     }
 
     public function getData($_id) {
+
+        $tkn = new Token();
+        $helper = $tkn->verifyToken($token);
+
+        if(! $helper['_id']) {
+            http_response_code(401);
+            $response = array(
+                'message' => 'You need a token'
+            );
+            return json_encode($response);
+        }
 
         $data = find('votes', $_id);
         http_response_code(200);
@@ -75,6 +86,17 @@ class Vote {
     }
 
     public function updateData($data) {
+
+        $tkn = new Token();
+        $helper = $tkn->verifyToken($token);
+
+        if(! $helper['_id']) {
+            http_response_code(401);
+            $response = array(
+                'message' => 'You need a token'
+            );
+            return json_encode($response);
+        }
 
         $data = json_decode($data);
         $dbres = update('votes', $data);

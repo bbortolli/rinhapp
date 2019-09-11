@@ -39,9 +39,9 @@ $(document).ready(function() {
                 $('.results-'+index).append('<div class="t1dat t1c-'+index+'">')
                 $('.results-'+index).append('<div class="t2dat t2c-'+index+'">')
                 $('.infos-'+index).append(id, endtime)
-                var btnVote = $('<button class="voteBtn" [gameid]='+value._id+' [tid]="first"></button>').text('Vote!')
+                var btnVote = $('<button class="voteBtn" gameid='+value._id+' tid="first"></button>').text('Vote!')
                 $('.t1c-'+index).append(team1, totalteam1, btnVote)
-                var btnVote = $('<button class="voteBtn" [gameid]='+value._id+' [tid]="secnd"></button>').text('Vote!')
+                var btnVote = $('<button class="voteBtn" gameid='+value._id+' tid="secnd"></button>').text('Vote!')
                 $('.t2c-'+index).append(team2, totalteam2, btnVote)
             })
             $('.voteBtn').on('click', function(e) {
@@ -69,6 +69,25 @@ $(document).ready(function() {
                     }
                 });
             })
+
+            $.ajax({
+                url: 'http://127.0.0.1/rinha-api/Vote/getAllVotes',
+                type: 'GET',
+                headers: {
+                    'Authorization' : localStorage.getItem('usertoken')
+                },
+                contentType: 'text/plain',
+                success: function (data) {
+                    data.forEach(e => {
+                        let idhide = e.rinhaid
+                        let team = e.teamvoted
+                        $('button[gameid="'+idhide+'"]').attr('disabled', true)
+                        $('button[gameid="'+idhide+'"]').text('#')
+                        $('[gameid='+idhide+'][tid='+team+']').text('Your choice!')
+                        $('[gameid='+idhide+'][tid='+team+']').parent().addClass('greenbg')
+                    });
+                }
+            });
         });
     }
 
@@ -134,7 +153,7 @@ $(document).ready(function() {
         }
       });
 
-      $('#addBtn').on('click', function(e) {
+    $('#addBtn').on('click', function(e) {
         e.preventDefault()
         let team1 = $('#t1add').val()
         let team2 = $('#t2add').val()
@@ -163,5 +182,7 @@ $(document).ready(function() {
 
         location.reload();
     });
+
+    
 
 });

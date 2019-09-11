@@ -71,12 +71,17 @@ class User {
         $helper = new Token();
         $res = $helper->verifyToken($token);
 
-        if($res) {
-            $data = find('users', $_id);
-            unset($data['password']);
-            http_response_code(200);
-            return json_encode($data);
+        if(! $res['_id']) {
+            http_response_code(401);
+            $response = array(
+                'message' => 'You need a token'
+            );
+            return json_encode($response);
         }
+        $data = find('users', $_id);
+        unset($data['password']);
+        http_response_code(200);
+        return json_encode($data);
     }
 
     public function addData($data) {
