@@ -16,14 +16,14 @@ html {
 
 .main {
     grid-area: main;
-    padding: 10px 0;
-    justify-items: center;
-    align-content: center;
-    align-self: center;
+    overflow: auto;
 }
 
 .sidemenu {
     grid-area: side;
+    display: flex;
+    flex-direction: column;
+    justify-content: space-between;
 }
 
 footer {
@@ -35,7 +35,7 @@ footer {
 .grid-container {
     display: grid;
     grid-template-rows: 10vh 85vh 5vh;
-    grid-template-columns: 15fr 85fr;
+    grid-template-columns: 20fr 80fr;
     grid-template-areas: 
     "top top"
     "side main"
@@ -51,12 +51,20 @@ h1 {
     flex-direction: column;
 }
 
+.deftext {
+    color: white;
+    text-align: center;
+    font-size: 1.3em;
+    margin-bottom: 5px;
+}
+
 .forminputs {
     display: flex;
     flex-direction: column;
     padding: 12px;
     width: 15%;
     align-self: center;
+    width: 100%;
 }
 
 #formUser, #formPass, #formEmail, #formReEmail, #formRePass, #loginBtn, #t1add, #t2add, #rdate, #addBtn {
@@ -72,19 +80,30 @@ h1 {
     opacity: 0.5;
 }
 
-.games {
+#t1add, #t2add {
+    width: 100%;
+}
+
+.games, .votes {
     display: flex;
     flex-direction: row;
     flex-wrap: wrap;
+    margin: 0;
+}
+
+.delBtn {
+    align-self: flex-end;
+    color: #ba5959;
 }
 
 .game {
     display: flex;
     flex-direction: column;
-    background: lemonchiffon;
-    margin: 10px;
+    background: #e9e9e9;
+    margin: 0 10px 10px 10px;
     align-items: center;
     justify-items: center;
+    border-radius: 4px;
 }
 
 p {
@@ -94,15 +113,14 @@ p {
 .t1dat, .t2dat {
     display: flex;
     flex-direction: column;
-    width: 150px;
-}
-
-.t1dat {
-    margin-right: 10px;
+    width: 140px;
+    padding: 8px;
+    border-radius: 4px;
+    margin: 5px;
 }
 
 .res {
-    padding: 10px;
+    padding: 2px;
     display: flex;
     flex-direction: row;
 }
@@ -119,13 +137,11 @@ p {
 }
 
 .inf {
+    display: flex;
+    flex-direction: column;
     width: 100%;
-    border-top: solid red 1px;
+    border-top: solid #ba5959 1px;
     padding: 10px;
-}
-
-.sidenav {
-    padding-top: 30px;
 }
 
 .navlist {
@@ -135,7 +151,7 @@ p {
 
 .navbtn {
     margin-bottom: 2px;
-    width: 200px;
+    width: 100%;
 }
 
 .navbtn a {

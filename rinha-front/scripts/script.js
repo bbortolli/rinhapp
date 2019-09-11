@@ -31,6 +31,7 @@ $(document).ready(function() {
                 var team1 = $('<p></p>').text(value.team1.toUpperCase())
                 var team2 = $('<p></p>').text(value.team2.toUpperCase())
                 var endtime = $('<p></p>').text('Ends: '+ value.endtime)
+                var delbtn = $('<i class="fas fa-trash delBtn" ident="'+value._id+'">')
                 var totalteam1 = $('<p></p>').text(value.totalteam1)
                 var totalteam2 = $('<p></p>').text(value.totalteam2)
                 $('.games').append('<div class="game index-'+index+'">')
@@ -38,7 +39,7 @@ $(document).ready(function() {
                 $('.game.index-'+index).append('<div class="inf infos-'+index+'">')
                 $('.results-'+index).append('<div class="t1dat t1c-'+index+'">')
                 $('.results-'+index).append('<div class="t2dat t2c-'+index+'">')
-                $('.infos-'+index).append(id, endtime)
+                $('.infos-'+index).append(id, endtime, delbtn)
                 var btnVote = $('<button class="voteBtn" gameid='+value._id+' tid="first"></button>').text('Vote!')
                 $('.t1c-'+index).append(team1, totalteam1, btnVote)
                 var btnVote = $('<button class="voteBtn" gameid='+value._id+' tid="secnd"></button>').text('Vote!')
@@ -68,6 +69,7 @@ $(document).ready(function() {
                         }    
                     }
                 });
+                location.reload()
             })
 
             $.ajax({
@@ -88,6 +90,12 @@ $(document).ready(function() {
                     });
                 }
             });
+
+            $('.delBtn').on('click', function(e) {
+
+                let delid = e.target.getAttribute('ident')
+                // ajax delete para remover rinha
+            })
         });
     }
 
