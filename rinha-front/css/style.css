@@ -35,10 +35,11 @@ footer {
 .grid-container {
     display: grid;
     grid-template-rows: 10vh 85vh 5vh;
+    grid-template-columns: 15fr 85fr;
     grid-template-areas: 
-    "top top top top top"
-    "side main main main main"
-    "footer footer footer footer footer";
+    "top top"
+    "side main"
+    "footer footer";
 }
 
 h1 {
@@ -58,7 +59,7 @@ h1 {
     align-self: center;
 }
 
-#formUser, #formPass, #formEmail, #formReEmail, #formRePass, #loginBtn {
+#formUser, #formPass, #formEmail, #formReEmail, #formRePass, #loginBtn, #t1add, #t2add, #rdate, #addBtn {
     margin-bottom: 10px;
     border: solid white 1px;
     color: ba5959;
@@ -66,7 +67,7 @@ h1 {
 }
 
 #formUser::placeholder, #formPass::placeholder, #loginBtn::placeholder, #formEmail::placeholder,
-#formReEmail::placeholder, #formRePass::placeholder {
+#formReEmail::placeholder, #formRePass::placeholder, #t1add::placeholder, #t2add::placeholder {
     color: ba5959;
     opacity: 0.5;
 }

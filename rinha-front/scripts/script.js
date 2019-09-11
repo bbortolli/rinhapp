@@ -13,7 +13,7 @@ $(document).ready(function() {
             dataType: 'json',
             success: function (data) {
                 if (data.token) {
-                    localStorage.setItem('usertoken', 'token')
+                    localStorage.setItem('usertoken', data.token)
                     window.location.replace('./index.html')
                 }
                 else {
@@ -48,13 +48,16 @@ $(document).ready(function() {
                 button = $(e.target)
                 let rinhaid = button[0].attributes[1].nodeValue
                 let teamvoted = button[0].attributes[2].nodeValue
-                vote = JSON.stringify({'userid': 2, rinhaid , teamvoted})
+                vote = JSON.stringify({rinhaid , teamvoted})
                 
                 $.ajax({
                     url: 'http://127.0.0.1/rinha-api/Vote/addData',
                     type: 'POST',
+                    headers: {
+                        'Authorization' : localStorage.getItem('usertoken')
+                    },
                     data: vote,
-                    dataType: 'json',
+                    contentType: 'text/plain',
                     success: function (data) {
                         if (data.message == "Can't create data") {
                             alert('Já votou!')
@@ -130,5 +133,35 @@ $(document).ready(function() {
             $('#email-warn').text('')
         }
       });
+
+      $('#addBtn').on('click', function(e) {
+        e.preventDefault()
+        let team1 = $('#t1add').val()
+        let team2 = $('#t2add').val()
+        let endtime = $('#rdate').val()
+        let token = localStorage.getItem('usertoken')
+        
+        team1 = team1.replace(/[^a-zA-Z0-9 ]*/g, '')
+        team1 = team1.replace(/\s\s+/g, ' ')
+
+        team2 = team2.replace(/[^a-zA-Z0-9 ]*/g, '')
+        team2 = team2.replace(/\s\s+/g, ' ')
+
+        let data = JSON.stringify({team1, team2, endtime, token})
+
+        if(team1 !== '' && team2 !== '' && endtime !== '') {
+            $.ajax({
+                url: 'http://127.0.0.1/rinha-api/Rinha/addData',
+                type: 'POST',
+                data,
+                dataType: 'json',
+                success: function (data) {
+                    console.log(data)
+                }
+            });
+        }
+
+        location.reload();
+    });
 
 });

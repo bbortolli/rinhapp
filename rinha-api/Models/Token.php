@@ -53,7 +53,7 @@ class Token {
         $found = null;
 
         try {
-            $sql = "SELECT _id, token FROM users WHERE token = " . "'" . $token . "'";
+            $sql = "SELECT _id FROM users WHERE token = " . "'" . $token . "'";
             $result = $database->query($sql);
             if ($result->num_rows > 0) {
                 $found = $result->fetch_assoc();

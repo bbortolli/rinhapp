@@ -3,10 +3,15 @@
 header('Content-Type: application/json; charset: utf-8');
 include_once( $_SERVER['DOCUMENT_ROOT'] . '/rinha-api/config/cfg.php');
 include_once( $_SERVER['DOCUMENT_ROOT'] . '/rinha-api/config/database.php');
+require_once 'Token.php';
 
 class Rinha {
 
-    public function getData($_id) {
+    public function getData($_id, $token) {
+
+        $tkn = new Token();
+        $helper = $tkn->verifyToken($token);
+        print_r($helper['_id']);
 
         $valid = filter_var($_id, FILTER_VALIDATE_INT);
         if(! $valid) {
@@ -23,7 +28,10 @@ class Rinha {
         
     }
 
-    public function getAll() {
+    public function getAll($token) {
+
+        $tkn = new Token();
+        $helper = $tkn->verifyToken($token);
 
         $data = findAll('rinhas');
         http_response_code(200);
@@ -32,7 +40,15 @@ class Rinha {
 
     public function addData($data) {
 
+        
         $data = json_decode($data);
+        $token = $data->token;
+
+        $tkn = new Token();
+        $helper = $tkn->verifyToken($token);
+        
+        $data->owner = $helper['_id'];
+        unset($data->token);
         $dbres = save('rinhas', $data);
         http_response_code(200);
         $response = array(
@@ -54,9 +70,10 @@ class Rinha {
         return json_encode($response);
     }
 
-    public function removeData($id) {
+    public function removeData($id, $token) {
 
-        # Verificar se a requisicao veio do owner
+        $tkn = new Token();
+        $helper = $tkn->verifyToken($token);
 
         $valid = filter_var($_id, FILTER_VALIDATE_INT);
         if(! $valid) {
@@ -84,11 +101,15 @@ class Rinha {
             return json_encode($response);
         }
         else {
+
+            $tkn = new Token();
+            $helper = $tkn->verifyToken($token);
+
             $database = open_database();
             $found = null;
 
             try {
-                $sql = "SELECT userid FROM users WHERE token = " . $token;
+                $sql = "SELECT _id FROM users WHERE token = " . "'" . $token . "'";
                 $result = $database->query($sql);
                 if ($result->num_rows > 0) {
                     $userid = $result->fetch_assoc();

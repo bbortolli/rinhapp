@@ -1,6 +1,8 @@
 <?php
 
 header("Access-Control-Allow-Origin: *");
+header('Access-Control-Allow-Headers: Authorization, Content-Type');
+header('Access-Control-Allow-Methods: GET, POST, PUT, DELETE, OPTIONS');
 header('Content-Type: application/json; charset: utf-8');
 
 require_once 'config/Routes.php';
@@ -13,6 +15,11 @@ if (isset($_REQUEST)) {
 
     $method = $_SERVER[REQUEST_METHOD];
     $route = explode('/', $_REQUEST['url']);
+
+    if($method === 'OPTIONS') {
+        http_response_code(200);
+        return;
+    }
 
     // Get model
     $class = ucfirst($route[0]);
@@ -27,13 +34,13 @@ if (isset($_REQUEST)) {
     $param = $route[0];
 
     // Get auth token
-    // $headers = apache_request_headers();
-    // if (! isset($headers['Authorization'])) {
-    //     $token = null;
-    // }
-    // else {
-    //     $token = $headers['Authorization'];
-    // }
+    $headers = apache_request_headers();
+    if (! isset($headers['Authorization'])) {
+        $token = null;
+    }
+    else {
+        $token = $headers['Authorization'];
+    }
 
     // Verify param
     /*if($method != 'POST' || $method != 'PUT') {
@@ -88,7 +95,7 @@ if (isset($_REQUEST)) {
         return;
     }
     // POST and PUT receive params from php input and calls a function sending those params
-    else if ($method === 'POST' || $method === 'PUT') {
+    else if ($method === 'POST' || $method === 'PUT' || $method === 'OPTIONS') {
         $body = file_get_contents('php://input');
         $response = call_user_func_array( array(new $class, $classMethod), array($body, $token));
         echo $response;
