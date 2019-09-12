@@ -1,5 +1,7 @@
 $(document).ready(function() {
 
+    // Login button event handler
+
     $('#loginBtn').on('click', function(e) {
         e.preventDefault()
         let user = $('#formUser').val()
@@ -22,6 +24,8 @@ $(document).ready(function() {
             }
         });
     });
+
+    // API Request: Logged user rinhas
 
     if(window.location.pathname === '/rinha-front/public/rinhas.html') {
         $.ajax({
@@ -78,15 +82,57 @@ $(document).ready(function() {
                     });
                     location.reload()
                 })
+
+                $('.delBtn').on('click', function(e) {
+
+                    let delid = e.target.getAttribute('ident')
+                    console.log(delid)
+                    $.ajax({
+                        url: 'http://127.0.0.1/rinha-api/Rinha/removeData',
+                        type: 'DELETE',
+                        headers: {
+                            'Authorization' : localStorage.getItem('usertoken')
+                        },
+                        data: vote,
+                        contentType: 'text/plain',
+                        success: function (data) {
+                            if (data.message == "Can't create data") {
+                                alert('Já votou!')
+                            }
+                            else {
+                                let previous = button.prev()
+                                previous.text( parseInt(previous.text())+1 )
+                            }    
+                        }
+                    });
+                    location.reload()
+                })
+            },
+            complete: function() {
+                $.ajax({
+                    url: 'http://127.0.0.1/rinha-api/Vote/getAll',
+                    type: 'GET',
+                    headers: {
+                        'Authorization' : localStorage.getItem('usertoken')
+                    },
+                    contentType: 'text/plain',
+                    success: function (data) {
+                        data.forEach( function(value) {
+                            let idhide = value.rinhaid
+                            let team = value.teamvoted
+                            $('button[gameid="'+idhide+'"]').attr('disabled', true)
+                            $('button[gameid="'+idhide+'"]').text('#')
+                            $('[gameid='+idhide+'][tid='+team+']').text('Your choice!')
+                            $('[gameid='+idhide+'][tid='+team+']').parent().addClass('greenbg')
+                        });
+                    }
+                });
             }
         })
 
-            $('.delBtn').on('click', function(e) {
-
-                let delid = e.target.getAttribute('ident')
-                // ajax delete para remover rinha
-            })
     }
+
+    // API Request: Rinhas that user voted
 
     if(window.location.pathname === '/rinha-front/public/votes.html') {
         $.ajax({
@@ -98,7 +144,6 @@ $(document).ready(function() {
             contentType: 'text/plain',
             success: function (data) {
                 data.forEach( function(value, index) {
-                    console.log(value)
                     var id = $('<p></p>').text(value._id)
                     var team1 = $('<p></p>').text(value.team1.toUpperCase())
                     var team2 = $('<p></p>').text(value.team2.toUpperCase())
@@ -117,28 +162,39 @@ $(document).ready(function() {
                     var btnVote = $('<button class="voteBtn" gameid='+value._id+' tid="secnd"></button>').text('Vote!')
                     $('.t2c-'+index).append(team2, totalteam2, btnVote)
 
-                    let idhide = value.rinhaid
-                    let team = value.teamvoted
-                    $('button[gameid="'+idhide+'"]').attr('disabled', true)
-                    $('button[gameid="'+idhide+'"]').text('#')
-                    $('[gameid='+idhide+'][tid='+team+']').text('Your choice!')
-                    $('[gameid='+idhide+'][tid='+team+']').parent().addClass('greenbg')
-
-
+                });
+            },
+            complete: function() {
+                $.ajax({
+                    url: 'http://127.0.0.1/rinha-api/Vote/getAll',
+                    type: 'GET',
+                    headers: {
+                        'Authorization' : localStorage.getItem('usertoken')
+                    },
+                    contentType: 'text/plain',
+                    success: function (data) {
+                        data.forEach( function(value) {
+                            let idhide = value.rinhaid
+                            let team = value.teamvoted
+                            $('button[gameid="'+idhide+'"]').attr('disabled', true)
+                            $('button[gameid="'+idhide+'"]').text('#')
+                            $('[gameid='+idhide+'][tid='+team+']').text('Your choice!')
+                            $('[gameid='+idhide+'][tid='+team+']').parent().addClass('greenbg')
+                        });
+                    }
                 });
             }
         });
     }
+
+    // Logout button handler
 
     $('#logoutBtn').on('click', function() {
         localStorage.removeItem('usertoken')
         window.location.replace('./login.html')
     })
 
-    $('#registerBtn').on('click', function() {
-        localStorage.removeItem('usertoken')
-        window.location.replace('./register.html')
-    })
+    // Register button 
 
     $('#registerBtn').on('click', function(e) {
         e.preventDefault()
@@ -155,20 +211,23 @@ $(document).ready(function() {
                 type: 'POST',
                 data,
                 dataType: 'json',
-                success: function (data, status, req) {
-                    console.log("click")
-                    console.log(data, status, req)
+                success: function (data) {
+                    if(data.message === 'Data created') {
+                        window.location.replace('./login.html')
+                        alert('Thank you for registering!')
+                    }
+                    else {
+                        alert('Cant register, try again!')
+                    }
                 },
                 error: function(req, status, err) {
-                    console.log("click")
-                    console('Status: ', status, 'Erro: ', err)
+                    console.log('Status: ', status, 'Erro: ', err)
                 }
             });
         }
-        else {
-            console.log('aqui')
-        }
     });
+
+    // Input handlers and messages
 
     $('#formRePass').keyup(function () {
         let pass = $('#formPass').val()
@@ -191,6 +250,8 @@ $(document).ready(function() {
             $('#email-warn').text('')
         }
       });
+
+    // Add rinha button handler
 
     $('#addBtn').on('click', function(e) {
         e.preventDefault()
@@ -222,24 +283,92 @@ $(document).ready(function() {
         location.reload();
     });
 
-    $.ajax({
-        url: 'http://127.0.0.1/rinha-api/Vote/getAll',
-        type: 'GET',
-        headers: {
-            'Authorization' : localStorage.getItem('usertoken')
-        },
-        contentType: 'text/plain',
-        success: function (data) {
-            data.forEach( function(value) {
-                let idhide = value.rinhaid
-                let team = value.teamvoted
-                console.log(idhide, team)
-                $('button[gameid="'+idhide+'"]').attr('disabled', true)
-                $('button[gameid="'+idhide+'"]').text('#')
-                $('[gameid='+idhide+'][tid='+team+']').text('Your choice!')
-                $('[gameid='+idhide+'][tid='+team+']').parent().addClass('greenbg')
-            });
-        }
-    });
+    // Function Shuffle array
 
+    function shuffleArray(array) {
+        for (let i = array.length - 1; i > 0; i--) {
+            const j = Math.floor(Math.random() * (i + 1));
+            [array[i], array[j]] = [array[j], array[i]];
+        }
+    }
+
+    if(window.location.pathname === '/rinha-front/public/index.html') {
+        $.ajax({
+            url: 'http://127.0.0.1/rinha-api/Rinha/getAll',
+            type: 'GET',
+            headers: {
+                'Authorization' : localStorage.getItem('usertoken')
+            },
+            contentType: 'text/plain',
+            success: function (data) {
+                shuffleArray(data)
+                data.forEach( function(value, index) {
+                    var id = $('<p></p>').text(value._id)
+                    var team1 = $('<p></p>').text(value.team1.toUpperCase())
+                    var team2 = $('<p></p>').text(value.team2.toUpperCase())
+                    var endtime = $('<p></p>').text('Ends: '+ value.endtime)
+                    var totalteam1 = $('<p></p>').text(value.totalteam1)
+                    var totalteam2 = $('<p></p>').text(value.totalteam2)
+                    $('.geral').append('<div class="game index-'+index+'">')
+                    $('.game.index-'+index).append('<div class="res results-'+index+'">')
+                    $('.game.index-'+index).append('<div class="inf infos-'+index+'">')
+                    $('.results-'+index).append('<div class="t1dat t1c-'+index+'">')
+                    $('.results-'+index).append('<div class="t2dat t2c-'+index+'">')
+                    $('.infos-'+index).append(id, endtime)
+                    var btnVote = $('<button class="voteBtn" gameid='+value._id+' tid="first"></button>').text('Vote!')
+                    $('.t1c-'+index).append(team1, totalteam1, btnVote)
+                    var btnVote = $('<button class="voteBtn" gameid='+value._id+' tid="secnd"></button>').text('Vote!')
+                    $('.t2c-'+index).append(team2, totalteam2, btnVote)
+
+                });
+            },
+            complete: function() {
+                $('.voteBtn').on('click', function(e) {
+                    button = $(e.target)
+                    let rinhaid = button[0].attributes[1].nodeValue
+                    let teamvoted = button[0].attributes[2].nodeValue
+                    vote = JSON.stringify({rinhaid , teamvoted})
+                    
+                    $.ajax({
+                        url: 'http://127.0.0.1/rinha-api/Vote/addData',
+                        type: 'POST',
+                        headers: {
+                            'Authorization' : localStorage.getItem('usertoken')
+                        },
+                        data: vote,
+                        contentType: 'text/plain',
+                        success: function (data) {
+                            if (data.message == "Can't create data") {
+                                alert('Já votou!')
+                            }
+                            else {
+                                let previous = button.prev()
+                                previous.text( parseInt(previous.text())+1 )
+                            }    
+                        }
+                    });
+                    location.reload()
+                })
+
+                $.ajax({
+                    url: 'http://127.0.0.1/rinha-api/Vote/getAll',
+                    type: 'GET',
+                    headers: {
+                        'Authorization' : localStorage.getItem('usertoken')
+                    },
+                    contentType: 'text/plain',
+                    success: function (data) {
+                        data.forEach( function(value) {
+                            let idhide = value.rinhaid
+                            let team = value.teamvoted
+                            $('button[gameid="'+idhide+'"]').attr('disabled', true)
+                            $('button[gameid="'+idhide+'"]').text('#')
+                            $('[gameid='+idhide+'][tid='+team+']').text('Your choice!')
+                            $('[gameid='+idhide+'][tid='+team+']').parent().addClass('greenbg')
+                        });
+                    }
+                });
+            }
+        })
+    }
 });

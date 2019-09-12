@@ -1,9 +1,4 @@
 <html lang="en">
-<script>
-        if(localStorage.usertoken === null) {
-            window.location.replace('./login.html')
-        }
-</script>
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
@@ -23,7 +18,7 @@
                     <li class="navbtn"><a href="index.html">Home</a></li>
                     <li class="navbtn"><a href="#">My Rinhas</a></li>
                     <li class="navbtn"><a href="votes.html">My Votes</a></li>
-                    <li class="navbtn"><a href="">Profile</a></li>
+                    <li class="navbtn"><a href="#">Profile</a></li>
                     <li class="navbtn"><a id="logoutBtn" href="#">Logout</a></li>
                 </ul>
             </nav>
@@ -51,5 +46,11 @@
     <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/js/bootstrap.min.js" integrity="sha384-JjSmVgyd0p3pXB1rRibZUAYoIIy6OrQ6VrjIEaFf/nJGzIxFDsf4x0xIM+B07jRM" crossorigin="anonymous"></script>
     <script src="https://kit.fontawesome.com/19b3674836.js"></script>
     <script src="../scripts/script.js" type="text/javascript"></script>
+
+    <script>
+            if(localStorage.getItem('usertoken') === null) {
+                window.location.replace('./login.html')
+            }
+    </script>
 </body>
 </html>

@@ -28,10 +28,18 @@ class Rinha {
         
     }
 
-    public function getAll($token) {
+    public function getAll($ignore, $token) {
 
         $tkn = new Token();
         $helper = $tkn->verifyToken($token);
+
+        if(! $helper['_id']) {
+            http_response_code(401);
+            $response = array(
+                'message' => 'You need a token'
+            );
+        return json_encode($response);
+        }
 
         $data = findAll('rinhas');
         http_response_code(200);
@@ -81,6 +89,24 @@ class Rinha {
             $response = array(
                 'message' => 'Insert valid ID'
             );
+        }
+
+        $aux = find('rinhas', $id);
+
+        if(!$aux) {
+            http_response_code(404);
+            $response = array(
+                'message' => 'Data not found'
+            );
+            return json_encode($response);
+        }
+
+        if($aux['owner'] !== $helper['_id']) {
+            http_response_code(401);
+            $response = array(
+                'message' => 'Only the owner can execute this'
+            );
+            return json_encode($response);
         }
 
         $dbres = remove('rinhas', $id);
