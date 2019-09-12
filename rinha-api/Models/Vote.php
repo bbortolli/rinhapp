@@ -7,7 +7,7 @@ require_once 'Token.php';
 
 class Vote {
 
-    public function getAllVotes($ignore = null, $token) {
+    public function getAll($ignore = null, $token) {
 
         if(! $token) {
             http_response_code(401);

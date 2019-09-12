@@ -12,12 +12,13 @@ $myRoutes = [
         'getData' => 'GET',
         'getAll' => 'GET',
         'getByUser' => 'GET',
+        'getAllVoted' => 'GET',
         'addData' => 'POST',
         'updateData' => 'PUT',
         'removeData' => 'DELETE'
     ],
     'Vote' => [
-        'getAllVotes' => 'GET',
+        'getAll' => 'GET',
         'addData' => 'POST',
         'updateAccount' => 'PUT',
         'removeAccount' => 'DELETE'

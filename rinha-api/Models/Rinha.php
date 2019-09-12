@@ -91,7 +91,7 @@ class Rinha {
         return json_encode($response);
     }
 
-    public function getByUser($token) {
+    public function getByUser($ignore, $token) {
 
         if(!$token) {
             http_response_code(400);
@@ -100,33 +100,62 @@ class Rinha {
             );
             return json_encode($response);
         }
-        else {
 
-            $tkn = new Token();
-            $helper = $tkn->verifyToken($token);
+        $tkn = new Token();
+        $helper = $tkn->verifyToken($token);
 
-            $database = open_database();
-            $found = null;
+        $database = open_database();
+        $found = null;
 
-            try {
-                $sql = "SELECT _id FROM users WHERE token = " . "'" . $token . "'";
-                $result = $database->query($sql);
-                if ($result->num_rows > 0) {
-                    $userid = $result->fetch_assoc();
-                    print_r($userid);
-                    $sql = "SELECT * FROM rinhas WHERE owner = " . $userid;
-                    $result = $database->query($sql);
-                }
+        try {
+            $sql = "SELECT * FROM rinhas WHERE owner = " . $helper['_id'];
+            $result = $database->query($sql);
+            if ($result->num_rows > 0) {
+                $found = $result->fetch_all(MYSQLI_ASSOC);
             }
-            catch (Exception $e) {
-                http_response_code(400);
-                return $e->GetMessage();
-            }
-
-            close_database($database);
-            http_response_code(200);
-            return json_encode($found);
         }
+        catch (Exception $e) {
+            http_response_code(400);
+            return $e->GetMessage();
+        }
+
+        close_database($database);
+        http_response_code(200);
+        return json_encode($found);
             
+    }
+
+    public function getAllVoted($ignore, $token) {
+
+        if(!$token) {
+            http_response_code(400);
+            $response = array(
+                'message' => 'Token needed!'
+            );
+            return json_encode($response);
+        }
+
+        $tkn = new Token();
+        $helper = $tkn->verifyToken($token);
+
+        $database = open_database();
+        $found = null;
+
+        try {
+            $sql = "SELECT rinhas._id, team1, team2, endtime, finished, totalteam1, totalteam2, teamvoted FROM rinhas, votes WHERE rinhas._id = votes.rinhaid AND votes.userid = " . $helper['_id'];
+            $result = $database->query($sql);
+            if ($result->num_rows > 0) {
+                $found = $result->fetch_all(MYSQLI_ASSOC);
+            }
+        }
+        catch (Exception $e) {
+            http_response_code(400);
+            return $e->GetMessage();
+        }
+
+        close_database($database);
+        http_response_code(200);
+        return json_encode($found);
+
     }
 }
