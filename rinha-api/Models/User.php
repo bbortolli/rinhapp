@@ -33,12 +33,22 @@ class User {
                         close_database($database);
                         $token = new Token($found['_id']);
                         $token->generateToken();
-                        $token->saveToken();
-                        http_response_code(200);
-                        $response = array(
-                            'token' => $token->getToken()
-                        );
-                        return json_encode($response);
+                        $aux = $token->saveToken();
+                        if($aux === 'Data updated') {
+                            http_response_code(200);
+                            $response = array(
+                                'token' => $token->getToken(),
+                                'time' => time()
+                            );
+                            return json_encode($response);
+                        }
+                        else {
+                            http_response_code(401);
+                            $response = array(
+                                'message' => 'Error on auth'
+                            );
+                            return json_encode($response);
+                        }
   
                     }
                     else {

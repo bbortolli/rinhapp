@@ -13,14 +13,18 @@ $(document).ready(function() {
             type: 'POST',
             data,
             dataType: 'json',
-            success: function (data) {
-                if (data.token) {
+            success: function (data, status) {
+                if (status == 'success') {
+                    console.log(data.time)
                     localStorage.setItem('usertoken', data.token)
                     window.location.replace('./index.html')
                 }
                 else {
                     console.log("invalid")
                 }
+            },
+            error: function() {
+                console.log('aqui error')
             }
         });
     });
