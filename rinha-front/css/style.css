@@ -1,10 +1,12 @@
+@import "bootstrap.css"; 
+
 * {
     box-sizing: border-box;
     margin: 0;
     font-family: 'Roboto', sans-serif;
 }
 
-html {
+body {
     background-color: 	#ba5959;
 }
 
@@ -108,7 +110,6 @@ h1 {
     align-items: center;
     justify-items: center;
     border-radius: 4px;
-    width: 30%;
 }
 
 p {

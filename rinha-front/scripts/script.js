@@ -313,7 +313,7 @@ $(document).ready(function() {
                     var endtime = $('<p></p>').text('Ends: '+ value.endtime)
                     var totalteam1 = $('<p></p>').text(value.totalteam1)
                     var totalteam2 = $('<p></p>').text(value.totalteam2)
-                    $('.geral').append('<div class="game index-'+index+'">')
+                    $('.geral').append('<div class="col-md-6 col-xs-3 game index-'+index+'">')
                     $('.game.index-'+index).append('<div class="res results-'+index+'">')
                     $('.game.index-'+index).append('<div class="inf infos-'+index+'">')
                     $('.results-'+index).append('<div class="t1dat t1c-'+index+'">')
